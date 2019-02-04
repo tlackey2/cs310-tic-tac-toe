@@ -76,6 +76,16 @@ public class TicTacToeModel {
         /* Initialize board by filling every square with empty marks */
         
         // INSERT YOUR CODE HERE
+
+        // Not sure if this is correct or not
+
+        for (i = 0; i < width; ++i)
+        {
+            for(j = 0; j< width; ++j)
+            {
+                board[i][j] = EMPTY;
+            }
+        }
         
     }
 	
@@ -86,10 +96,32 @@ public class TicTacToeModel {
            specified location is valid, make a mark for the current player, then
            toggle "xTurn" from true to false (or vice-versa) to switch to the
            other player before returning TRUE.  Otherwise, return FALSE. */
+
         
         // INSERT YOUR CODE HERE
+
+        if (isValidSquare(row,col) && !isSquareMarked(row,col)
+        {
+            if (isXTurn)
+            {
+                board[row][col] = X;
+                xTurn = false;
+            }
+
+            else 
+            {
+                board[row][col] = O;
+                xTurn = true;
+            }
+
+            return true;
+        }
+
+        else
+        {
+            return false;
+        }
         
-        return false; // remove this line later!
         
     }
 	
@@ -99,7 +131,18 @@ public class TicTacToeModel {
         
         // INSERT YOUR CODE HERE
 
-        return false; // remove this line later!
+        if (row > -1 && row <= width)
+        {  
+            if (col > -1 && col <= width)
+            {
+                return true;
+            }
+        }
+
+        else
+        {
+            return false;
+        }
         
     }
 	
@@ -109,8 +152,16 @@ public class TicTacToeModel {
         
         // INSERT YOUR CODE HERE
 
-        return false; // remove this line later!
-            
+        if (board[row][col] != EMPTY)
+        {
+            return true;
+        }
+
+        else
+        {
+            return false;
+        }
+
     }
 	
     public Mark getMark(int row, int col) {
@@ -119,7 +170,11 @@ public class TicTacToeModel {
         
         // INSERT YOUR CODE HERE
 
-        return null; // remove this line later!
+        // Pretty sure this doesn't work
+
+        Mark tile = board[row][col];
+
+        return tile;
             
     }
 	
