@@ -23,7 +23,19 @@ public class TicTacToeView {
         
         // INSERT YOUR CODE HERE
 
-        return null; // remove this line later!
+        if (isXTurn)
+        {
+            System.out.println("X's  Move: ");
+        } 
+        
+        else 
+        {
+            System.out.println("O's Move: ");
+        }
+
+        TicTacToeMove movement = new TicTacToeMove(keyboard.nextInt(), keyboard.nextInt());
+        
+        return movement;
 
     }
 
