@@ -99,36 +99,32 @@ public class TicTacToeModel {
 
         
         // INSERT YOUR CODE HERE
-        boolean validity = false;
-        if (isValidSquare(row,col))
+        if (isValidSquare(row, col))
         {
-            if (!isSquareMarked(row,col))
+            if (!isSquareMarked(row, col))
             {
-                    if (isXTurn())
-                    {
-                        board[row][col] = Mark.X;
-                        xTurn = false;
-                        validity = true;
-                    }
-        
-                    else if (!isXTurn())
-                    {
-                        board[row][col] = Mark.O;
-                        xTurn = true;
-                        validity = true;
-                    }
-        
-                
-                
+                if (xTurn)
+                 {
+                    board[row][col] = Mark.X;
+                }
+                else 
+                {
+                    board[row][col] = Mark.O;
+                }
+                xTurn = !xTurn;
+                return true;
+            }
+            else 
+            {
+                return false;
             }
         }
         else
         {
-            validity = false;
+            return false;
         }
-
-        return validity;
     }
+    
             
             private boolean isValidSquare(int row, int col) {
                 
@@ -136,22 +132,15 @@ public class TicTacToeModel {
                 
                 // INSERT YOUR CODE HERE
 
-                boolean isValid = false;
-        
-                if (row > -1 && row <= getWidth())
-                {  
-                    if (col > -1 && col <= getWidth())
-                    {
-                        isValid= true;
-                    }
-                }
-        
-                else
+                if ((row >= getWidth() || col >= getWidth()) || (row < 0 || col < 0))
                 {
-                    isValid = false;
+                    return false;
+                }
+                else
+                 {
+                    return true;
                 }
                 
-                return isValid;
             }
        
 	
@@ -180,9 +169,7 @@ public class TicTacToeModel {
         // INSERT YOUR CODE HERE
 
 
-        Mark tile = board[row][col];
-
-        return tile;
+        return board[row][col];
             
     }
 	
@@ -232,96 +219,46 @@ public class TicTacToeModel {
         
         // INSERT YOUR CODE HERE
         
-        boolean won = false;
-        int count = 0;
-
-        if(isTie())
-        {
-            won = true;
+        boolean topLeftBottomRight = true;
+        for (int f = 0; f < getWidth(); f++){
+            if (board[f][f] != mark) { topLeftBottomRight = false; }
         }
 
-        for ( int i = 0; i < getWidth(); ++i)
-        {
-            for (int j = 0; j < getWidth(); ++j )
-            {
-                if (board[i][j] == mark)
-                {
-                    ++count;
-                }
-                
-                else if (board[i][j] != mark)
-                {
-                    count = 0;
-                }
+        //Bottom left to top right check
+        boolean bottomLeftTopRight = true;
+        for (int k = 0; k < getWidth(); k++) {
+            if (board[(getWidth() - 1) - k][k] != mark) { bottomLeftTopRight = false; }
+        }
 
-                if (count == getWidth())
-                {
-                    won = true;
-                }
+        //Row check
+        boolean rows = false;
+        for (int i = 0; i < getWidth(); i++) {
+            boolean winner = true;
+
+            for (int j = 0; j < getWidth(); j++) {
+                if (board[j][i] != mark) {winner = false;}
+            }
+            if (winner) {
+                rows = true;
             }
         }
 
+        //Col check
+        boolean cols = false;
+        for (int g = 0; g < getWidth(); g++) {
+            boolean winner = true;
 
-        for ( int i =0; i < getWidth(); ++i)
-        {
-            for (int j = 0; j < getWidth(); ++ j)
-            {
-                if ( board[j][i] == mark)
-                {
-                    ++count;
-                }
-                
-                else
-                {
-                    count = 0;
-                }
-
-                if (count == getWidth())
-                {
-                    won = true;
-                }
+            for (int h = 0; h < getWidth(); h++) {
+                if (board[g][h] != mark) {winner = false;}
             }
-
-        }
-
-        for (int i = 0; i < getWidth(); ++i)
-        {
-            if (board[i][i] == mark)
-            {
-                ++count;
-            }   
-
-            else
-            {
-                count =0;
-            }
-
-            if (count == getWidth())
-            {
-                won = true;
-            }
-        
-        }
-
-        for (int i = 0; i < getWidth(); ++i)
-        {
-            if (board[((getWidth()-1)-i)][i] == mark)
-            {
-                ++count;
-            }
-
-            else
-            {
-                count =0;
-            }
-
-            if (count == getWidth())
-            {
-                won =true;
+            if (winner) {
+                cols = true;
             }
         }
 
-        return won;
+        if (topLeftBottomRight || bottomLeftTopRight || rows || cols) { return true; }
+        else { return false; }
+
     }
 	
     private boolean isTie() {
@@ -329,26 +266,20 @@ public class TicTacToeModel {
         /* Check the squares of the board to see if the game is a tie */
         
         // INSERT YOUR CODE HERE
-        boolean draw = false;
-
-        for (int i =0; i < getWidth(); ++i)
+        boolean emptySpace = false;
+        for (int i = 0; i < getWidth(); i++) 
         {
-            for (int j =0; j < getWidth(); ++j)
-            {
+            for (int j = 0; j < getWidth(); j++)
+             {
                 if (board[i][j] == Mark.EMPTY)
                 {
-                    draw = false;
+                    emptySpace = true;
                 }
-
-                else
-                {
-                    draw = true;
-                }
-
             }
         }
 
-        return draw;
+        if (emptySpace) { return false; }
+        else { return true;}
     }
 
     public boolean isGameover() {
