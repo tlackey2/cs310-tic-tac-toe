@@ -1,5 +1,6 @@
 package edu.jsu.mcis;
 
+
 public class TicTacToeModel {
     
     private Mark[][] board; /* Game board */
